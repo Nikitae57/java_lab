@@ -17,6 +17,7 @@ public class Chaos extends ColoredRectApplet {
 
     private final int MAX_DELTA = 10;
     private final int MIN_DELTA = -10;
+    private final int FRAME_TIME = 20;
 
     private Random random;
     private ArrayList<MyRectangle> rectangles;
@@ -24,6 +25,7 @@ public class Chaos extends ColoredRectApplet {
     @Override
     public void init() {
         super.init();
+        super.frameTime = FRAME_TIME;
         random = new Random();
         rectangles = new ArrayList<>();
 
@@ -40,6 +42,9 @@ public class Chaos extends ColoredRectApplet {
         });
     }
 
+    /**
+     * Move shapes and draw one frame
+     */
     public void animate() {
         Rectangle bounds = getBounds();
 
@@ -65,14 +70,31 @@ public class Chaos extends ColoredRectApplet {
         rectangles.forEach(r -> r.draw(g));
     }
 
+    /**
+     * Returns a number in a provided range including borders and
+     * <b>excluding zero</b>
+     *
+     * @param min minimum possible number
+     * @param max maximum possible number
+     * @return number in including range between min and max
+     */
     private int randInRange(int min, int max) {
-        return random.nextInt(max + 1 - min) + min;
+        int rnd = random.nextInt(max + 1 - min) + min;
+        return rnd != 0 ? rnd : randInRange(min, max);
     }
 
+    /**
+     * Generate a width in a range between MIN_WIDTH and MAX_WIDTH
+     * @return width of a rectangle
+     */
     private int generateWidth() {
         return randInRange(MIN_WIDTH, MAX_WIDTH);
     }
 
+    /**
+     * Generate a height in a range between MIN_WIDTH and MAX_WIDTH
+     * @return height of a rectangle
+     */
     private int generateHeight() {
         return randInRange(MIN_HEIGHT, MAX_HEIGHT);
     }
