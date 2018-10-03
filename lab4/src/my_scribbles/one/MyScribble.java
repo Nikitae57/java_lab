@@ -54,10 +54,9 @@ public class MyScribble extends Applet {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (!shouldDraw) { return; }
-
-                Graphics g = getGraphics();
+                
                 int x = e.getX();
-                int y= e.getY();
+                int y = e.getY();
                 width = Math.abs(last_x - x);
                 height = Math.abs(last_y - y);
 
@@ -65,9 +64,6 @@ public class MyScribble extends Applet {
                 yReversed = y < last_y ? 1 : 0;
                 xPaintCoord = last_x - width * xReversed;
                 yPaintCoord = last_y - height * yReversed;
-
-                g.setColor(Color.DARK_GRAY);
-                g.drawRect(xPaintCoord, yPaintCoord, width, height);
 
                 repaint();
             }
@@ -96,6 +92,11 @@ public class MyScribble extends Applet {
             g.setColor(rectangle.getColor());
             g.fillRect(x, y, width, height);
         });
+
+        if (shouldDraw) {
+            g.setColor(Color.GRAY);
+            g.drawRect(xPaintCoord, yPaintCoord, width, height);
+        }
     }
 
     private final Color[] colorsArray = {
