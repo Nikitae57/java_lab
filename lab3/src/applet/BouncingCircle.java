@@ -7,7 +7,7 @@ import java.awt.*;
  * Данный класс реализует методы интерфейса Runnable */
 
 public class BouncingCircle extends Applet implements Runnable {
-    protected int frameTime = 20;
+    int frameTime = 20;
     int x = 150, y = 50, r = 50; // Центр и радиус круга
 
     // Движение круга по горизонт и вертикали
@@ -41,11 +41,15 @@ public class BouncingCircle extends Applet implements Runnable {
     public void run() {
         while(!pleaseStop) {
 
+            //resize(600, 400);
             // Обновляем положение и перерисовываем
             animate();
+            //resize(601, 401);
 
             try { Thread.sleep(frameTime); }
-            catch(InterruptedException ignored) {} // Игнорируем прерывания
+            catch(InterruptedException e) {
+                e.printStackTrace();
+            } // Игнорируем прерывания
         }
     }
 

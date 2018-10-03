@@ -5,6 +5,8 @@ import shapes.DrawableRect;
 import shapes.MyRectangle;
 
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,6 +22,7 @@ public class Chaos extends ColoredRectApplet {
     private final int FRAME_TIME = 20;
 
     private Random random;
+    private Rectangle bounds;
     private ArrayList<MyRectangle> rectangles;
 
     @Override
@@ -28,6 +31,7 @@ public class Chaos extends ColoredRectApplet {
         super.frameTime = FRAME_TIME;
         random = new Random();
         rectangles = new ArrayList<>();
+        bounds = getBounds();
 
         // int number = random.nextInt(max + 1 -min) + min;
         for (int i = 0; i < 10; i++) {
@@ -40,13 +44,34 @@ public class Chaos extends ColoredRectApplet {
             r.setDx(randInRange(MIN_DELTA, MAX_DELTA));
             r.setDy(randInRange(MIN_DELTA, MAX_DELTA));
         });
+
+        this.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                bounds = getBounds();
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+
+            }
+        });
     }
 
     /**
      * Move shapes and draw one frame
      */
     public void animate() {
-        Rectangle bounds = getBounds();
 
         rectangles.forEach(r -> {
             // Changing x direction

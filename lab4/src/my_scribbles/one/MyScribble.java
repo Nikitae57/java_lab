@@ -12,7 +12,7 @@ public class MyScribble extends Applet {
 
     private int last_x, last_y;
     private int width, height;
-    private Color prevColor;
+    private Color color;
 
     private boolean shouldDraw;
     private int xReversed, yReversed, xPaintCoord, yPaintCoord;
@@ -20,7 +20,7 @@ public class MyScribble extends Applet {
 
     public void init() {
 
-        prevColor = Color.BLACK;
+        color = Color.BLACK;
         shouldDraw = false;
         drawnRectangles = new ArrayList<>();
 
@@ -31,17 +31,23 @@ public class MyScribble extends Applet {
                     last_x = e.getX();
                     last_y = e.getY();
                     shouldDraw = true;
+                    return;
 
-                } else {
-                    shouldDraw = false;
                 }
+
+                if (e.getButton() == MouseEvent.BUTTON3){
+                    color = pickRandomColor();
+                    System.out.println("Color changed: " + color.toString());
+                }
+
+                shouldDraw = false;
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                if (!shouldDraw) { return; }
+
                 Graphics g = getGraphics();
-                Color color = pickRandomColor();
-                prevColor = color;
 
                 ColoredRect coloredRect = new ColoredRect(xPaintCoord, yPaintCoord, width, height, color);
                 g.setColor(color);
@@ -54,7 +60,7 @@ public class MyScribble extends Applet {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (!shouldDraw) { return; }
-                
+
                 int x = e.getX();
                 int y = e.getY();
                 width = Math.abs(last_x - x);
@@ -107,6 +113,6 @@ public class MyScribble extends Applet {
     };
     private Color pickRandomColor() {
         Color pickedColor = colorsArray[new Random().nextInt(colorsArray.length)];
-        return !pickedColor.equals(prevColor) ? pickedColor : pickRandomColor();
+        return !pickedColor.equals(color) ? pickedColor : pickRandomColor();
     }
 }
