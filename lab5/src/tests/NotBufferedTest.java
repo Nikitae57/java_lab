@@ -29,6 +29,7 @@ public class NotBufferedTest {
                     fos.write(str.getBytes());
                 } catch (IOException ignored) {}
             });
+            System.out.println(file.getAbsolutePath());
 
         } catch (IOException e) {
             e.printStackTrace();
